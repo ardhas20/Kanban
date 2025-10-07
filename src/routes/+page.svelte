@@ -10,57 +10,71 @@
 </script>
 
 <style>
+	@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
 	main {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
-		gap: 1.5rem;
+		gap: 1.8rem;
 		padding: 2rem;
 		min-height: 100vh;
-		background: linear-gradient(135deg, #eef2f3, #d9e2ec);
-		font-family: 'Poppins', sans-serif;
+		background: linear-gradient(135deg, #e8eef3, #f3f6fa);
+		font-family: 'Inter', sans-serif;
 	}
 
 	.lane {
 		background: white;
-		border-radius: 15px;
-		padding: 1rem;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		border-radius: 18px;
+		padding: 1.3rem;
+		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 		display: flex;
 		flex-direction: column;
-		transition: 0.3s;
+		transition: 0.25s ease;
 	}
+
 	.lane:hover {
-		transform: translateY(-4px);
-		box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+		transform: translateY(-6px);
+		box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
 	}
 
 	h2 {
 		text-align: center;
-		color: #0077ff;
-		margin-bottom: 1rem;
-		font-size: 1.3rem;
-		border-bottom: 2px solid #0077ff20;
-		padding-bottom: 0.5rem;
+		color: #005fe0;
+		margin-bottom: 1.2rem;
+		font-size: 1.4rem;
+		font-weight: 600;
+		border-bottom: 2px solid #0077ff25;
+		padding-bottom: 0.6rem;
+		letter-spacing: 0.5px;
 	}
 
 	.issue {
-		background: #f8f9fc;
-		border-left: 4px solid #0077ff;
-		border-radius: 10px;
-		padding: 0.8rem;
-		margin-bottom: 0.8rem;
-		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+		background: #f9fbff;
+		border-left: 5px solid #0077ff;
+		border-radius: 12px;
+		padding: 1rem;
+		margin-bottom: 1rem;
+		box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+		transition: all 0.2s ease;
+	}
+
+	.issue:hover {
+		transform: scale(1.02);
+		background: #ffffff;
 	}
 
 	.issue strong {
 		display: block;
-		color: #333;
-		margin-bottom: 0.2rem;
+		color: #222;
+		font-size: 1rem;
+		margin-bottom: 0.3rem;
+		font-weight: 600;
 	}
 
 	.issue p {
-		font-size: 0.9rem;
-		color: #666;
+		font-size: 0.92rem;
+		color: #555;
+		line-height: 1.4;
 		margin: 0;
 	}
 </style>
