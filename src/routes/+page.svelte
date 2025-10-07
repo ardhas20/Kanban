@@ -22,6 +22,31 @@
 		font-family: 'Inter', sans-serif;
 	}
 
+	header {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 1rem;
+		background: #ffffff;
+		box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	button {
+		background: #0077ff;
+		color: white;
+		font-weight: 600;
+		border: none;
+		padding: 0.8rem 1.4rem;
+		border-radius: 10px;
+		cursor: pointer;
+		font-size: 1rem;
+		transition: background 0.25s ease;
+	}
+
+	button:hover {
+		background: #005fd1;
+	}
+
 	.lane {
 		background: white;
 		border-radius: 18px;
@@ -79,6 +104,10 @@
 	}
 </style>
 
+<header>
+	<button>+ Neues Issue</button>
+</header>
+
 <main>
 	{#each lanes as lane}
 		<div class="lane">
@@ -92,3 +121,4 @@
 		</div>
 	{/each}
 </main>
+
