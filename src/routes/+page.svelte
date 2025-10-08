@@ -11,12 +11,41 @@
   
     let dialog;
   
+    // Form Inputs
+    let newTitle = '';
+    let newDesc = '';
+    let newSP = 1;
+    let newPriority = 'Low';
+    let newLane = 'To Do';
+  
     function openDialog() {
       dialog.showModal();
     }
   
     function closeDialog() {
       dialog.close();
+    }
+  
+    function addIssue() {
+      const newIssue = {
+        title: newTitle,
+        description: newDesc,
+        lane: newLane,
+        storyPoints: newSP,
+        priority: newPriority,
+        creationDate: new Date().toLocaleDateString(),
+        dueDate: '' // noch leer, kommt später
+      };
+      issues = [...issues, newIssue];
+  
+      // Reset form
+      newTitle = '';
+      newDesc = '';
+      newSP = 1;
+      newPriority = 'Low';
+      newLane = 'To Do';
+  
+      closeDialog();
     }
   </script>
   
@@ -38,21 +67,29 @@
   
   <dialog bind:this={dialog}>
     <h2>Neues Issue</h2>
-    <form method="dialog">
+    <form on:submit|preventDefault={addIssue}>
       <label for="title">Titel:</label>
-      <input id="title" type="text" placeholder="Titel eingeben" />
+      <input id="title" type="text" bind:value={newTitle} placeholder="Titel eingeben" required />
       
       <label for="desc">Beschreibung:</label>
-      <textarea id="desc" placeholder="Beschreibung eingeben"></textarea>
+      <textarea id="desc" bind:value={newDesc} placeholder="Beschreibung eingeben" required></textarea>
       
       <label for="sp">Story Points:</label>
-      <input id="sp" type="number" min="1" value="1" />
+      <input id="sp" type="number" min="1" bind:value={newSP} />
       
       <label for="prio">Priorität:</label>
-      <select id="prio">
+      <select id="prio" bind:value={newPriority}>
         <option>Low</option>
         <option>Medium</option>
         <option>High</option>
+      </select>
+  
+      <label for="lane">Lane:</label>
+      <select id="lane" bind:value={newLane}>
+        <option>To Do</option>
+        <option>Doing</option>
+        <option>Done</option>
+        <option>Archiv</option>
       </select>
       
       <div class="actions">
@@ -65,9 +102,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
   
-    body {
-      font-family: 'Inter', sans-serif;
-    }
+    body { font-family: 'Inter', sans-serif; }
   
     header {
       display: flex;
@@ -78,25 +113,15 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
   
-    header h1 {
-      font-size: 1.5rem;
-      color: #005fe0;
-    }
+    header h1 { font-size: 1.5rem; color: #005fe0; }
   
     header button {
-      background: #0077ff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      cursor: pointer;
+      background: #0077ff; color: white; border: none;
+      border-radius: 8px; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer;
       transition: 0.2s;
     }
   
-    header button:hover {
-      background: #005fe0;
-    }
+    header button:hover { background: #005fe0; }
   
     main {
       display: grid;
@@ -142,21 +167,11 @@
       font-family: 'Inter', sans-serif;
     }
   
-    dialog::backdrop {
-      background: rgba(0,0,0,0.3);
-    }
+    dialog::backdrop { background: rgba(0,0,0,0.3); }
   
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
+    form { display: flex; flex-direction: column; gap: 0.6rem; }
   
-    label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #333;
-    }
+    label { font-weight: 600; font-size: 0.9rem; color: #333; }
   
     input, textarea, select {
       border: 1px solid #ccc;
@@ -165,29 +180,13 @@
       font-size: 0.95rem;
     }
   
-    .actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
+    .actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem; }
   
     .actions button {
-      border: none;
-      border-radius: 6px;
-      padding: 0.5rem 1rem;
-      font-weight: 600;
-      cursor: pointer;
+      border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; cursor: pointer;
     }
   
-    .actions button[type="button"] {
-      background: #ccc;
-      color: #333;
-    }
-  
-    .actions button[type="submit"] {
-      background: #0077ff;
-      color: white;
-    }
+    .actions button[type="button"] { background: #ccc; color: #333; }
+    .actions button[type="submit"] { background: #0077ff; color: white; }
   </style>
   
