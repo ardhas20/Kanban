@@ -1,11 +1,11 @@
 <script>
     import { onMount } from 'svelte';
-    import IssueCard from './IssueCard.svelte';
+    import IssueCard from '../lib/components/IssueCard.svelte';
+
   
     let lanes = ["To Do", "Doing", "Done", "Archiv"];
-    let issues = []; // empty initially
+    let issues = [];
   
-    // Dialog form fields
     let dialog;
     let newTitle = '';
     let newDesc = '';
@@ -13,13 +13,11 @@
     let newPriority = 'Low';
     let newLane = 'To Do';
   
-    // Only access localStorage on the browser
     onMount(() => {
       const stored = localStorage.getItem('issues');
       if (stored) {
         issues = JSON.parse(stored);
       } else {
-        // Default issues
         issues = [
           { title: "Projekt starten", description: "Grundstruktur aufbauen", lane: "To Do", storyPoints: 3, priority: "High", creationDate: new Date().toLocaleDateString(), dueDate: '' },
           { title: "HTML erstellen", description: "Dialog und Layout", lane: "Doing", storyPoints: 5, priority: "Medium", creationDate: new Date().toLocaleDateString(), dueDate: '' },
@@ -30,17 +28,9 @@
       }
     });
   
-    function saveIssues() {
-      localStorage.setItem('issues', JSON.stringify(issues));
-    }
-  
-    function openDialog() {
-      dialog.showModal();
-    }
-  
-    function closeDialog() {
-      dialog.close();
-    }
+    function saveIssues() { localStorage.setItem('issues', JSON.stringify(issues)); }
+    function openDialog() { dialog.showModal(); }
+    function closeDialog() { dialog.close(); }
   
     function addIssue() {
       const newIssue = {
@@ -55,20 +45,16 @@
       issues = [...issues, newIssue];
       saveIssues();
   
-      // reset form
       newTitle = '';
       newDesc = '';
       newSP = 1;
       newPriority = 'Low';
       newLane = 'To Do';
-  
       closeDialog();
     }
   
     function getStoryPoints(lane) {
-      return issues
-        .filter(issue => issue.lane === lane)
-        .reduce((sum, issue) => sum + Number(issue.storyPoints), 0);
+      return issues.filter(issue => issue.lane === lane).reduce((sum, issue) => sum + Number(issue.storyPoints), 0);
     }
   </script>
   
@@ -179,13 +165,21 @@
       letter-spacing: 0.5px;
     }
   
+    /* Dialog zentriert */
     dialog {
       border: none;
       border-radius: 16px;
       padding: 1.5rem;
       width: 350px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  
+      /* Wichtig: zentrieren */
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
+  
     dialog::backdrop { background: rgba(0,0,0,0.3); }
   
     form { display: flex; flex-direction: column; gap: 0.6rem; }
@@ -204,3 +198,4 @@
     .actions button[type="submit"] { background: #0077ff; color: white; }
   </style>
   
+   
