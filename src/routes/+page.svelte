@@ -4,6 +4,8 @@
 	import IssueCard from "$lib/components/IssueCard.svelte";
 	import { exportBoardAsCSV } from "$lib/utils/exportCSV";
 	import { onMount } from "svelte";
+	import Lane from "$lib/components/Lane.svelte";
+
 
 	let modalOpen = false;
 	const lanes = ["To Do", "Doing", "Done", "Archive"];
@@ -102,7 +104,7 @@
 	</main>
 
 	<!-- Footer -->
-	<footer class="p-4 text-center text-gray-700 bg-purple-100 border-t border-red-300 font-bold">
+	<footer class="p-4 text-center text-gray-700 bg-purple-100 border-t border-purple-300 font-bold">
 		Detected Country: <span class="text-purple-900">{userCountry}</span>
 	</footer>
 </div>
