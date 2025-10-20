@@ -105,7 +105,7 @@
 
 	<!-- Footer -->
 	<footer class="p-4 text-center text-gray-700 bg-purple-100 border-t border-purple-300 font-bold">
-		Detected Country: <span class="text-purple-900">{userCountry}</span>
+		Detected Country: <span class="text-orange-900">{userCountry}</span>
 	</footer>
 </div>
 
