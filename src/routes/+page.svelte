@@ -1,201 +1,110 @@
-<script>
-    import { onMount } from 'svelte';
-    import IssueCard from '../lib/components/IssueCard.svelte';
+<script lang="ts">
+	import { board, storyPointsSum } from "$lib/stores/boardStore";
+	import AddIssueModal from "$lib/components/AddIssueModal.svelte";
+	import IssueCard from "$lib/components/IssueCard.svelte";
+	import { exportBoardAsCSV } from "$lib/utils/exportCSV";
+	import { onMount } from "svelte";
 
-  
-    let lanes = ["To Do", "Doing", "Done", "Archiv"];
-    let issues = [];
-  
-    let dialog;
-    let newTitle = '';
-    let newDesc = '';
-    let newSP = 1;
-    let newPriority = 'Low';
-    let newLane = 'To Do';
-  
-    onMount(() => {
-      const stored = localStorage.getItem('issues');
-      if (stored) {
-        issues = JSON.parse(stored);
-      } else {
-        issues = [
-          { title: "Projekt starten", description: "Grundstruktur aufbauen", lane: "To Do", storyPoints: 3, priority: "High", creationDate: new Date().toLocaleDateString(), dueDate: '' },
-          { title: "HTML erstellen", description: "Dialog und Layout", lane: "Doing", storyPoints: 5, priority: "Medium", creationDate: new Date().toLocaleDateString(), dueDate: '' },
-          { title: "Design verbessern", description: "Farben & Layout", lane: "Done", storyPoints: 2, priority: "Low", creationDate: new Date().toLocaleDateString(), dueDate: '' },
-          { title: "Alte Tasks speichern", description: "Archivierte Elemente", lane: "Archiv", storyPoints: 1, priority: "Low", creationDate: new Date().toLocaleDateString(), dueDate: '' }
-        ];
-        localStorage.setItem('issues', JSON.stringify(issues));
-      }
-    });
-  
-    function saveIssues() { localStorage.setItem('issues', JSON.stringify(issues)); }
-    function openDialog() { dialog.showModal(); }
-    function closeDialog() { dialog.close(); }
-  
-    function addIssue() {
-      const newIssue = {
-        title: newTitle,
-        description: newDesc,
-        lane: newLane,
-        storyPoints: newSP,
-        priority: newPriority,
-        creationDate: new Date().toLocaleDateString(),
-        dueDate: ''
-      };
-      issues = [...issues, newIssue];
-      saveIssues();
-  
-      newTitle = '';
-      newDesc = '';
-      newSP = 1;
-      newPriority = 'Low';
-      newLane = 'To Do';
-      closeDialog();
-    }
-  
-    function getStoryPoints(lane) {
-      return issues.filter(issue => issue.lane === lane).reduce((sum, issue) => sum + Number(issue.storyPoints), 0);
-    }
-  </script>
-  
-  <header>
-    <h1>Kanban Board</h1>
-    <button on:click={openDialog}>+ Neues Issue</button>
-  </header>
-  
-  <main>
-    {#each lanes as lane}
-      <div class="lane">
-        <h2>{lane} ({getStoryPoints(lane)} SP)</h2>
-        {#each issues.filter(issue => issue.lane === lane) as issue}
-          <IssueCard {issue} />
-        {/each}
-      </div>
-    {/each}
-  </main>
-  
-  <dialog bind:this={dialog}>
-    <h2>Neues Issue</h2>
-    <form on:submit|preventDefault={addIssue}>
-      <label>Titel:</label>
-      <input type="text" bind:value={newTitle} required />
-  
-      <label>Beschreibung:</label>
-      <textarea bind:value={newDesc} required></textarea>
-  
-      <label>Story Points:</label>
-      <input type="number" min="1" bind:value={newSP} />
-  
-      <label>Priorität:</label>
-      <select bind:value={newPriority}>
-        <option>Low</option>
-        <option>Medium</option>
-        <option>High</option>
-      </select>
-  
-      <label>Lane:</label>
-      <select bind:value={newLane}>
-        <option>To Do</option>
-        <option>Doing</option>
-        <option>Done</option>
-        <option>Archiv</option>
-      </select>
-  
-      <div class="actions">
-        <button type="button" on:click={closeDialog}>Abbrechen</button>
-        <button type="submit">Speichern</button>
-      </div>
-    </form>
-  </dialog>
-  
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-  
-    body { font-family: 'Inter', sans-serif; }
-  
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-  
-    header h1 { font-size: 1.5rem; color: #005fe0; }
-    header button {
-      background: #0077ff; color: white; border: none;
-      border-radius: 8px; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer;
-      transition: 0.2s;
-    }
-    header button:hover { background: #005fe0; }
-  
-    main {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.8rem;
-      padding: 2rem;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #e8eef3, #f3f6fa);
-    }
-  
-    .lane {
-      background: white;
-      border-radius: 18px;
-      padding: 1.3rem;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-      display: flex;
-      flex-direction: column;
-      transition: 0.25s ease;
-    }
-  
-    .lane:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
-    }
-  
-    .lane h2 {
-      text-align: center;
-      color: #005fe0;
-      margin-bottom: 1.2rem;
-      font-size: 1.4rem;
-      font-weight: 600;
-      border-bottom: 2px solid #0077ff25;
-      padding-bottom: 0.6rem;
-      letter-spacing: 0.5px;
-    }
-  
-    /* Dialog zentriert */
-    dialog {
-      border: none;
-      border-radius: 16px;
-      padding: 1.5rem;
-      width: 350px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  
-      /* Wichtig: zentrieren */
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-  
-    dialog::backdrop { background: rgba(0,0,0,0.3); }
-  
-    form { display: flex; flex-direction: column; gap: 0.6rem; }
-    label { font-weight: 600; font-size: 0.9rem; color: #333; }
-    input, textarea, select {
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 0.5rem;
-      font-size: 0.95rem;
-    }
-    .actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem; }
-    .actions button {
-      border: none; border-radius: 6px; padding: 0.5rem 1rem; font-weight: 600; cursor: pointer;
-    }
-    .actions button[type="button"] { background: #ccc; color: #333; }
-    .actions button[type="submit"] { background: #0077ff; color: white; }
-  </style>
-  
-   
+	let modalOpen = false;
+	const lanes = ["To Do", "Doing", "Done", "Archive"];
+	let userCountry = "";
+
+	onMount(async () => {
+		try {
+			const res = await fetch("https://ipapi.co/json/");
+			const data = await res.json();
+			userCountry = data.country_name || "Unknown";
+		} catch {
+			userCountry = "Unknown";
+		}
+	});
+
+	const handleExportCSV = () => {
+		exportBoardAsCSV($board);
+	};
+
+	const handleDrop = (e: DragEvent, toLane: string) => {
+		e.preventDefault();
+		const data = e.dataTransfer?.getData("text/plain");
+		if (!data) return;
+
+		const { id, fromLane } = JSON.parse(data);
+		if (fromLane === toLane) return;
+
+		board.update(b => {
+			const itemIndex = b[fromLane].findIndex(i => i.id === id);
+			if (itemIndex === -1) return b;
+			const [moved] = b[fromLane].splice(itemIndex, 1);
+			b[toLane].push(moved);
+			return { ...b };
+		});
+	};
+
+	const handleDragOver = (e: DragEvent) => e.preventDefault();
+</script>
+
+<!-- Root container -->
+<div class="flex flex-col min-h-screen bg-purple-50 font-marker text-gray-900">
+
+	<!-- Header -->
+	<header class="flex flex-col sm:flex-row justify-between items-center p-6 bg-purple-100 shadow-md rounded-b-xl">
+		<h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4 sm:mb-0 text-purple-900">
+			My Kanban Board
+		</h1>
+
+		<div class="flex gap-3 flex-wrap justify-center">
+			<button
+				class="px-5 py-2.5 bg-purple-300 hover:bg-purple-400 text-gray-900 font-bold rounded-lg shadow transition"
+				on:click={handleExportCSV}
+			>
+				Export CSV
+			</button>
+
+			<button
+				class="px-5 py-2.5 bg-purple-400 hover:bg-purple-500 text-white font-bold rounded-lg shadow transition"
+				on:click={() => (modalOpen = true)}
+			>
+				Add Issue
+			</button>
+		</div>
+	</header>
+
+	<!-- Board -->
+	<main class="flex-1 p-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+		{#each lanes as lane}
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
+			<section
+				class="flex flex-col rounded-xl shadow-md border border-gray-200 bg-white hover:shadow-lg transition-colors duration-300"
+				on:drop={(e) => handleDrop(e, lane)}
+				on:dragover={handleDragOver}
+			>
+				<header
+					class={`text-center py-3 font-bold rounded-t-xl border-b 
+						${lane === 'To Do' ? 'bg-purple-400 text-white border-purple-500' : ''}
+						${lane === 'Doing' ? 'bg-purple-400 text-white border-purple-500' : ''}
+						${lane === 'Done' ? 'bg-purple-400 text-white border-purple-500' : ''}
+						${lane === 'Archive' ? 'bg-gray-200 text-gray-800 border-gray-300' : ''}`}
+				>
+					{lane} <span class="font-medium">({$storyPointsSum[lane] ?? 0} SP)</span>
+				</header>
+
+				<div class="p-4 space-y-4 min-h-[160px]">
+					{#if !$board[lane] || $board[lane].length === 0}
+						<div class="text-gray-500 text-sm text-center italic">No issues yet</div>
+					{:else}
+						{#each $board[lane] as issue (issue.id)}
+							<IssueCard {issue} lane={lane} />
+						{/each}
+					{/if}
+				</div>
+			</section>
+		{/each}
+	</main>
+
+	<!-- Footer -->
+	<footer class="p-4 text-center text-gray-700 bg-purple-100 border-t border-red-300 font-bold">
+		Detected Country: <span class="text-purple-900">{userCountry}</span>
+	</footer>
+</div>
+
+<AddIssueModal bind:open={modalOpen} />
