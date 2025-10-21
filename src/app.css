@@ -14,5 +14,5 @@ html.dark {
 }
 
 button {
-  transition: all 0.2s ease;
+  transition: ease;
 }
