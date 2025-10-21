@@ -7,3 +7,12 @@
   --font-outfit: "Outfit", sans-serif;
   --font-inter: "Inter", sans-serif;
 }
+
+html.dark {
+  background-color: #111827;
+  color: #f9fafb;
+}
+
+button {
+  transition: all 0.2s ease;
+}
