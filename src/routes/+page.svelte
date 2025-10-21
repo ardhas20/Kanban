@@ -72,10 +72,10 @@
         <div class="flex flex-wrap gap-3">
             <button class="px-5 py-2.5 rounded-xl bg-white text-purple-700 font-bold shadow" on:click={handleExportCSV}>Export CSV</button>
             <button class="px-5 py-2.5 rounded-xl bg-purple-600 text-white font-bold shadow" on:click={() => modalOpen = true}>Add Issue</button>
-            <button class="px-5 py-2.5 rounded-xl bg-gray-200 text-gray-800 font-semibold shadow" on:click={() => board.undo()}>↩️ Undo</button>
-            <button class="px-5 py-2.5 rounded-xl bg-gray-200 text-gray-800 font-semibold shadow" on:click={() => board.redo()}>↪️ Redo</button>
+            <button class="px-5 py-2.5 rounded-xl bg-gray-200 text-gray-800 font-semibold shadow" on:click={() => board.undo()}> Undo</button>
+            <button class="px-5 py-2.5 rounded-xl bg-gray-200 text-gray-800 font-semibold shadow" on:click={() => board.redo()}>Redo</button>
             <button class="px-5 py-2.5 rounded-xl border border-white font-semibold shadow" on:click={toggleDarkMode}>
-                {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+                {darkMode ? " Light Mode" : " Dark Mode"}
             </button>
         </div>
     </header>
