@@ -55,6 +55,7 @@
     };
 
     const handleDragOver = (e: DragEvent) => e.preventDefault();
+
     const toggleDarkMode = () => {
         darkMode = !darkMode;
         document.documentElement.classList.toggle("dark", darkMode);
@@ -83,8 +84,18 @@
     <main class="flex-1 p-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {#each lanes as lane}
             <!-- svelte-ignore a11y_no_static_element_interactions -->
-            <section class="flex flex-col rounded-2xl shadow-lg hover:shadow-2xl border border-gray-300 dark:border-gray-700 bg-gradient-to-b from-white to-purple-50 dark:from-gray-800 dark:to-gray-700 transition-all duration-500 p-3" on:drop={(e) => handleDrop(e, lane)} on:dragover={handleDragOver}>
-                <header class={`text-center py-2 font-bold rounded-xl mb-3 ${lane==='Archive'?'bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-100':'bg-purple-600 text-white'}`}>
+            <section
+                class={`flex flex-col rounded-2xl shadow-lg hover:shadow-2xl border p-3 transition-all duration-500
+                    ${darkMode ? 'border-gray-600 bg-gray-800/50' : 'border-gray-300 bg-purple-50/50'}
+                    backdrop-blur-sm`}
+                on:drop={(e) => handleDrop(e, lane)}
+                on:dragover={handleDragOver}
+            >
+                <header class={`text-center py-2 font-bold rounded-xl mb-3
+                    ${lane === 'Archive'
+                        ? 'bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-100'
+                        : darkMode ? 'bg-purple-700/80 text-white' : 'bg-purple-600 text-white'}`}
+                >
                     {lane} <span class="font-medium">({$storyPointsSum[lane] ?? 0} SP)</span>
                 </header>
 
