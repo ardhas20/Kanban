@@ -62,7 +62,7 @@
     };
 </script>
 
-<div class="flex flex-col min-h-screen font-marker text-gray-800 dark:text-gray-100 dark:bg-gray-900 transition-colors duration-500">
+<div class="flex flex-col min-h-screen font-marker text-gray-800 dark:text-gray-100 dark:bg-gray-900">
 
     <!-- Header -->
     <header class="flex flex-col sm:flex-row justify-between items-center p-6 bg-gradient-to-r from-purple-500 to-purple-700 dark:from-gray-800 dark:to-gray-900 shadow-xl rounded-b-3xl mb-6">
@@ -70,11 +70,11 @@
              My Kanban Board
         </h1>
         <div class="flex flex-wrap gap-3">
-            <button class="px-5 py-2.5 rounded-xl bg-white text-purple-700 font-bold shadow hover:scale-105 transition transform" on:click={handleExportCSV}>Export CSV</button>
-            <button class="px-5 py-2.5 rounded-xl bg-purple-600 text-white font-bold shadow hover:scale-105 transition transform" on:click={() => modalOpen = true}>Add Issue</button>
-            <button class="px-5 py-2.5 rounded-xl bg-gray-200 text-gray-800 font-semibold shadow hover:scale-105 transition transform" on:click={() => board.undo()}>↩️ Undo</button>
-            <button class="px-5 py-2.5 rounded-xl bg-gray-200 text-gray-800 font-semibold shadow hover:scale-105 transition transform" on:click={() => board.redo()}>↪️ Redo</button>
-            <button class="px-5 py-2.5 rounded-xl border border-white font-semibold shadow hover:scale-105 transition transform" on:click={toggleDarkMode}>
+            <button class="px-5 py-2.5 rounded-xl bg-white text-purple-700 font-bold shadow" on:click={handleExportCSV}>Export CSV</button>
+            <button class="px-5 py-2.5 rounded-xl bg-purple-600 text-white font-bold shadow" on:click={() => modalOpen = true}>Add Issue</button>
+            <button class="px-5 py-2.5 rounded-xl bg-gray-200 text-gray-800 font-semibold shadow" on:click={() => board.undo()}>↩️ Undo</button>
+            <button class="px-5 py-2.5 rounded-xl bg-gray-200 text-gray-800 font-semibold shadow" on:click={() => board.redo()}>↪️ Redo</button>
+            <button class="px-5 py-2.5 rounded-xl border border-white font-semibold shadow" on:click={toggleDarkMode}>
                 {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
             </button>
         </div>
@@ -85,16 +85,15 @@
         {#each lanes as lane}
             <!-- svelte-ignore a11y_no_static_element_interactions -->
             <section
-                class={`flex flex-col rounded-2xl shadow-lg hover:shadow-2xl border p-3 transition-all duration-500
-                    ${darkMode ? 'border-gray-600 bg-gray-800/50' : 'border-gray-300 bg-purple-50/50'}
-                    backdrop-blur-sm`}
+                class={`flex flex-col rounded-2xl shadow-lg border p-3
+                    ${darkMode ? 'border-gray-600 bg-gray-800' : 'border-gray-300 bg-purple-50'}`}
                 on:drop={(e) => handleDrop(e, lane)}
                 on:dragover={handleDragOver}
             >
                 <header class={`text-center py-2 font-bold rounded-xl mb-3
                     ${lane === 'Archive'
                         ? 'bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-100'
-                        : darkMode ? 'bg-purple-700/80 text-white' : 'bg-purple-600 text-white'}`}
+                        : darkMode ? 'bg-purple-700 text-white' : 'bg-purple-600 text-white'}`}
                 >
                     {lane} <span class="font-medium">({$storyPointsSum[lane] ?? 0} SP)</span>
                 </header>
