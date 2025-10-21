@@ -1,38 +1,35 @@
-# sv
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+# 🧩 My Kanban Board
 
-## Creating a project
+A simple and elegant Kanban board built with **Svelte** and **TypeScript**.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## ✨ Features
+- 4 Lanes: **To Do**, **Doing**, **Done**, **Archive**
+- Add new issues via `<dialog>`
+- Drag & Drop issues between lanes (no library)
+- Save all data in **localStorage**
+- **ICS export** for calendar events
+- **Web Share API** to share issues
+- **CSV export** of all issues
+- Detects user’s **country** automatically
+- Shows **Story Points total** per lane
+- Shows ⚠️ if issue is overdue
+- ✅ Notification when moved to **Done**
+- 🌙 Dark Mode toggle
+- Clean, responsive, and elegant design
 
-```sh
-# create a new project in the current directory
-npx sv create
+## 🧠 Tech Stack
+- Svelte
+- TypeScript
+- TailwindCSS
 
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
+## 🛠️ Setup
+```bash
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
+Open http://localhost:5173 (or your terminal URL) in your browser.
 
-## Building
+## 🧾 Notes
+This project was created for a school assignment.  
 
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
